@@ -208,6 +208,11 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
+	/* if x is AsciiDight, then  
+	 * x >= 0x30 ,so SignLeft  = x - 0x30 ,then its sign bit will be 0 
+	 * x <= 0x39 ,so SignRight = x - 0x40, then its sign bit will be 1 
+	 */
+	
 	int SignLeft = (x + ~0x30 +1) >> 31;
 	int SignRight = (x + ~0x39) >> 31;
 	return !SignLeft & SignRight;
