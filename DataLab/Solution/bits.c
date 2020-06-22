@@ -184,6 +184,8 @@ int allOddBits(int x) {
 	exam = 0xaa;
 	temp = exam << 24 | exam << 16 | exam << 8 | exam;
 	return !(~x & temp);
+	// x = x & temp;
+	//return !( x ^ temp );
 }
 /* 
  * negate - return -x 
@@ -208,6 +210,7 @@ int negate(int x) {
  *   Rating: 3
  */
 int isAsciiDigit(int x) {
+	
 	/* if x is AsciiDight, then  
 	 * x >= 0x30 ,so SignLeft  = x - 0x30 ,then its sign bit will be 0 
 	 * x <= 0x39 ,so SignRight = x - 0x40, then its sign bit will be 1 
@@ -229,7 +232,9 @@ int conditional(int x, int y, int z) {
 	 * if x == 0 then IsZero = -1 (which means in binary it is 111...111)
 	 * otherwise      IsZero =  0
 	 */
-	int IsZero = ~((x | (~x+1))>>31);
+	int IsZero = ~( ( x | (~x + 1 )) >> 31 );
+	//int IsZero = !!(x ^ 0) + ~1 + 1;
+	
 	/* if x == 0 then we choose z,now IsZero  = -1 , ~IsZero  = 0
 	 * otherwise      we choose y,now IsZero  =  0 , ~IsZero  = -1
 	 */
