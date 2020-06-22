@@ -167,8 +167,9 @@ int tmin(void) {
  */
 int isTmax(int x) {
     /*if a == b,then a ^ b == 0 . so we first create Tmax, then do the check, before return we do the ! op*/
-    int tmax = ~(1 << 31);
-    return !(x ^ tmax);
+    int A = x + 1;
+    int B = ~x;
+    return !(A ^ B);
 }
 /* 
  * allOddBits - return 1 if all odd-numbered bits in word set to 1
