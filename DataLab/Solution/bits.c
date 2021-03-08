@@ -143,7 +143,7 @@ NOTES:
  *   Rating: 1
  */
 int bitXor(int x, int y) {
-      /*some knowledge in digital design*/
+      /* some knowledge in digital design */
       return ~(x & y) & ~(~x & ~y);
 }
 /* 
@@ -153,7 +153,7 @@ int bitXor(int x, int y) {
  *   Rating: 1
  */
 int tmin(void) {
-    /*just 0x80000000*/
+    /* just 0x80000000 */
     return 1 << 31;
 
 }
@@ -166,7 +166,8 @@ int tmin(void) {
  *   Rating: 1
  */
 int isTmax(int x) {
-    /*if a == b,then a ^ b == 0 . so we first create Tmax, then do the check, before return we do the ! op*/
+    /* the property that Tmax has is 
+       Tmax + 1 == ~Tmax */
     int A = x + 1;
     int B = ~x;
     return !(A ^ B);
@@ -195,7 +196,7 @@ int allOddBits(int x) {
  *   Rating: 2
  */
 int negate(int x) {
-    /* -x == ~x +1 */
+    /* -x == ~x + 1 */
     return ~x + 1;
   return 2;
 }
@@ -212,11 +213,11 @@ int negate(int x) {
 int isAsciiDigit(int x) {
 	
 	/* if x is AsciiDight, then  
-	 * x >= 0x30 ,so SignLeft  = x - 0x30 ,then its sign bit will be 0 
+	 * x >= 0x30 ,so SignLeft  = x - 0x30, then its sign bit will be 0 
 	 * x <= 0x39 ,so SignRight = x - 0x40, then its sign bit will be 1 
 	 */
 	
-	int SignLeft = (x + ~0x30 +1) >> 31;
+	int SignLeft = (x + ~0x30 + 1) >> 31;
 	int SignRight = (x + ~0x39) >> 31;
 	return !SignLeft & SignRight;
 }
@@ -232,11 +233,10 @@ int conditional(int x, int y, int z) {
 	 * if x == 0 then IsZero = -1 (which means in binary it is 111...111)
 	 * otherwise      IsZero =  0
 	 */
-	int IsZero = ~( ( x | (~x + 1 )) >> 31 );
-	//int IsZero = !!(x ^ 0) + ~1 + 1;
+	int IsZero = !!x + ~1 + 1;
 	
-	/* if x == 0 then we choose z,now IsZero  = -1 , ~IsZero  = 0
-	 * otherwise      we choose y,now IsZero  =  0 , ~IsZero  = -1
+	/* if x == 0 then we choose z, IsZero  = -1 , ~IsZero  =  0
+	 * otherwise      we choose y, IsZero  =  0 , ~IsZero  = -1
 	 */
 	return (~IsZero & y) | (IsZero & z);
 }
@@ -248,12 +248,13 @@ int conditional(int x, int y, int z) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-	/*we do not want overflow.When x<0 and y>0 or x>0 and y<0, so we create a var called IsSame*/
+	/* we should not overflow. When x < 0 and y > 0 or x > 0 and y < 0
+           we create a variable called IsSame*/
 	
-	int SignX = x>>0x1f;
-	int SignY = y>>0x1f;
+	int SignX = x >> 0x1f;
+	int SignY = y >> 0x1f;
 	int IsSameSign = !(SignX ^ SignY);
-   	int x_sub_y = x + ~y;	/* x<=y, but we want <, so we change to get x-y < 1*/
+   	int x_sub_y = x + ~y;	/* x <= y, but we want <, so we change to get x - y < 1 */
     	return (!IsSameSign & SignX) | ( IsSameSign & x_sub_y >> 0x1f);
 }
 //4
