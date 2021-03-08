@@ -267,8 +267,8 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4 
  */
 int logicalNeg(int x) {
-	int IsZero = ~((x | ~x+1)>>31);
-	return IsZero & 0x1;
+	int IsZero = ((x | ~x + 1) >> 31) + 1;
+	return IsZero;
 }
 /* howManyBits - return the minimum number of bits required to represent x in
  *             two's complement
@@ -291,22 +291,22 @@ int howManyBits(int x) {
 	/* if x < 0 then op_number = ~x
 	 * otherwise     op_number =  x
 	 */
-	int op_number = x ^ (x>>31);
-	/*we shift the op_number by 16,8,4,2,1 bit(s) to sum the return value*/
+	int op_number = x ^ (x >> 31);
+	/* we shift the op_number by 16,8,4,2,1 bit(s) to sum the return value */
 	int shift_16,shift_8,shift_4,shift_2,shift_1;
 	/*
 	 * when op_number shift right by 16 bits, if it isn't 0 then shift_16 = 16
 	 * otherwise						     shift_16 =  0
 	 */
-	shift_16 = (!!(op_number >>16)) << 4;
+	shift_16 = (!!(op_number >> 16)) << 4;
 	op_number = op_number >> shift_16;
-	shift_8 = (!!(op_number >>  8)) << 3;
+	shift_8 = (!!(op_number >> 8)) << 3;
 	op_number = op_number >> shift_8;
-	shift_4 = (!!(op_number >>  4)) << 2;
+	shift_4 = (!!(op_number >> 4)) << 2;
 	op_number = op_number >> shift_4;
-	shift_2 = (!!(op_number >>  2)) << 1;
+	shift_2 = (!!(op_number >> 2)) << 1;
 	op_number = op_number >> shift_2;
-	shift_1 = (!!(op_number >>  1));
+	shift_1 = (!!(op_number >> 1));
 	
 	int sum_shift = shift_16 + shift_8 + shift_4 + shift_2 + shift_1 + 2;
 	return (IsZero & 1) | (IsNegOne & 1) | (~IsZero & ~ IsNegOne & sum_shift);
